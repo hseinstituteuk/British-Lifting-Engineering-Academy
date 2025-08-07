@@ -1,0 +1,1217 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEEA UK - Official Certificate Verification Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 20px 0;
+            border-bottom: 3px solid #0066cc;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #0066cc, #004499);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,102,204,0.3);
+            animation: pulse 2s infinite;
+        }
+
+        .site-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #0066cc;
+            margin: 0;
+        }
+
+        .site-subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .verification-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(40,167,69,0.3);
+            animation: glow 2s infinite alternate;
+        }
+
+        /* Navigation */
+        .nav {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: #0066cc;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 40px 0;
+        }
+
+        .section {
+            background: white;
+            margin: 30px 0;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.8s ease-out;
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 32px;
+            color: #0066cc;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(135deg, #0066cc, #28a745);
+            border-radius: 2px;
+        }
+
+        /* Certificate Verification */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 20px 60px 20px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 50px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .search-box:focus {
+            border-color: #0066cc;
+            box-shadow: 0 4px 20px rgba(0,102,204,0.2);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #0066cc, #004499);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        /* Certificate Display */
+        .certificate-display {
+            background: linear-gradient(135deg, #f8f9fa, #ffffff);
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            display: none;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .certificate-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #0066cc;
+        }
+
+        .certificate-logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #0066cc, #004499);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 36px;
+        }
+
+        .certificate-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .detail-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            color: #333;
+            font-size: 16px;
+        }
+
+        .verified-badge {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            max-width: 300px;
+            animation: glow 2s infinite alternate;
+        }
+
+        /* Course Enrollment */
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .course-image {
+            height: 200px;
+            background: linear-gradient(135deg, #0066cc, #004499);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+        }
+
+        .course-content {
+            padding: 25px;
+        }
+
+        .course-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .course-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .course-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .course-duration {
+            background: #f8f9fa;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .course-price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0066cc;
+        }
+
+        .enroll-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .enroll-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(40,167,69,0.3);
+        }
+
+        /* Enrollment Form */
+        .enrollment-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            display: none;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus {
+            border-color: #0066cc;
+            box-shadow: 0 4px 15px rgba(0,102,204,0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #0066cc, #004499);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,102,204,0.3);
+        }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .gallery-content {
+            padding: 20px;
+        }
+
+        .gallery-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .gallery-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #343a40, #495057);
+            color: white;
+            padding: 50px 0 30px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .footer-section p, .footer-section li {
+            color: #adb5bd;
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #495057;
+            color: #adb5bd;
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 4px 15px rgba(40,167,69,0.3);
+            }
+            to {
+                box-shadow: 0 4px 25px rgba(40,167,69,0.6);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .nav-links {
+                gap: 20px;
+            }
+
+            .nav-link {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .section {
+                padding: 20px;
+                margin: 20px 0;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .course-grid, .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .certificate-details {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .site-title {
+                font-size: 20px;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            .search-box {
+                padding: 15px 50px 15px 15px;
+            }
+
+            .search-btn {
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">LEEA</div>
+                    <div>
+                        <h1 class="site-title">LEEA UK</h1>
+                        <p class="site-subtitle">Lifting Equipment Engineers Association</p>
+                    </div>
+                </div>
+                <div class="verification-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Official UK Verified Portal</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-links">
+                <a href="#" class="nav-link active" onclick="showSection('verification')">Certificate Verification</a>
+                <a href="#" class="nav-link" onclick="showSection('courses')">Courses</a>
+                <a href="#" class="nav-link" onclick="showSection('enrollment')">Enroll Now</a>
+                <a href="#" class="nav-link" onclick="showSection('gallery')">Gallery</a>
+                <a href="#" class="nav-link" onclick="showSection('about')">About Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Certificate Verification Section -->
+            <section id="verification" class="section active">
+                <h2 class="section-title">Certificate Verification Portal</h2>
+                <div class="search-container">
+                    <input type="text" class="search-box" id="certificateSearch" placeholder="Enter Certificate ID or Student Name...">
+                    <button class="search-btn" onclick="searchCertificate()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div id="certificateResult" class="certificate-display">
+                    <div class="certificate-header">
+                        <div class="certificate-logo">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h3>LEEA Certified Professional</h3>
+                    </div>
+                    
+                    <div class="certificate-details" id="certificateDetails">
+                        <!-- Certificate details will be populated here -->
+                    </div>
+                    
+                    <div class="verified-badge">
+                        <i class="fas fa-check-circle"></i>
+                        <span>VERIFIED & AUTHENTIC</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Courses Section -->
+            <section id="courses" class="section">
+                <h2 class="section-title">LEEA Certification Courses</h2>
+                <div class="course-grid">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">Lifting Equipment Inspection</h3>
+                            <p class="course-description">Comprehensive training on inspection techniques, safety standards, and regulatory compliance for lifting equipment.</p>
+                            <div class="course-info">
+                                <span class="course-duration">5 Days</span>
+                                <span class="course-price">$ 49.00</span>
+                            </div>
+                            <button class="enroll-btn" onclick="showEnrollmentForm('Lifting Equipment Inspection')">Enroll Now</button>
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <div class="course-image">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">Chain Sling Safety</h3>
+                            <p class="course-description">Specialized course covering chain sling inspection, maintenance, and safe working practices in industrial environments.</p>
+                            <div class="course-info">
+                                <span class="course-duration">3 Days</span>
+                                <span class="course-price">$60</span>
+                            </div>
+                            <button class="enroll-btn" onclick="showEnrollmentForm('Chain Sling Safety')">Enroll Now</button>
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <div class="course-image">
+                            <i class="fas fa-anchor"></i>
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">Wire Rope Examination</h3>
+                            <p class="course-description">Advanced training on wire rope inspection, defect identification, and assessment of lifting capacity.</p>
+                            <div class="course-info">
+                                <span class="course-duration">4 Days</span>
+                                <span class="course-price">$ 100</span>
+                            </div>
+                            <button class="enroll-btn" onclick="showEnrollmentForm('Wire Rope Examination')">Enroll Now</button>
+                        </div>
+                    </div>
+
+                    <div class="course-card">
+                        <div class="course-image">
+                            <i class="fas fa-hard-hat"></i>
+                        </div>
+                        <div class="course-content">
+                            <h3 class="course-title">Crane Safety Management</h3>
+                            <p class="course-description">Comprehensive management course covering crane operations, safety protocols, and regulatory compliance.</p>
+                            <div class="course-info">
+                                <span class="course-duration">6 Days</span>
+                                <span class="course-price">$ 250 </span>
+                            </div>
+                            <button class="enroll-btn" onclick="showEnrollmentForm('Crane Safety Management')">Enroll Now</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Enrollment Section -->
+            <section id="enrollment" class="section">
+                <h2 class="section-title">Course Enrollment</h2>
+                <div class="enrollment-form" id="enrollmentForm">
+                    <h3 id="selectedCourse">Select a Course</h3>
+                    <form onsubmit="submitEnrollment(event)">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-input" required placeholder="Enter your full name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-input" required placeholder="Enter your email">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-input" required placeholder="Enter your phone number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Country</label>
+                            <select class="form-select" required>
+                                <option value="">Select your country</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="US">United States</option>
+                                <option value="CA">Canada</option>
+                                <option value="AU">Australia</option>
+                                <option value="DE">Germany</option>
+                                <option value="FR">France</option>
+                                <option value="IT">Italy</option>
+                                <option value="ES">Spain</option>
+                                <option value="NL">Netherlands</option>
+                                <option value="BE">Belgium</option>
+                                <option value="CH">Switzerland</option>
+                                <option value="AT">Austria</option>
+                                <option value="SE">Sweden</option>
+                                <option value="NO">Norway</option>
+                                <option value="DK">Denmark</option>
+                                <option value="FI">Finland</option>
+                                <option value="IE">Ireland</option>
+                                <option value="PT">Portugal</option>
+                                <option value="GR">Greece</option>
+                                <option value="PL">Poland</option>
+                                <option value="CZ">Czech Republic</option>
+                                <option value="HU">Hungary</option>
+                                <option value="SK">Slovakia</option>
+                                <option value="SI">Slovenia</option>
+                                <option value="HR">Croatia</option>
+                                <option value="BG">Bulgaria</option>
+                                <option value="RO">Romania</option>
+                                <option value="EE">Estonia</option>
+                                <option value="LV">Latvia</option>
+                                <option value="LT">Lithuania</option>
+                                <option value="MT">Malta</option>
+                                <option value="CY">Cyprus</option>
+                                <option value="LU">Luxembourg</option>
+                                <option value="JP">Japan</option>
+                                <option value="KR">South Korea</option>
+                                <option value="CN">China</option>
+                                <option value="IN">India</option>
+                                <option value="SG">Singapore</option>
+                                <option value="MY">Malaysia</option>
+                                <option value="TH">Thailand</option>
+                                <option value="PH">Pakistan</option>
+                                <option value="ID">Indonesia</option>
+                                <option value="VN">Vietnam</option>
+                                <option value="NZ">New Zealand</option>
+                                <option value="ZA">South Africa</option>
+                                <option value="BR">Brazil</option>
+                                <option value="MX">Mexico</option>
+                                <option value="AR">Argentina</option>
+                                <option value="CL">Chile</option>
+                                <option value="CO">Colombia</option>
+                                <option value="PE">Peru</option>
+                                <option value="UY">Uruguay</option>
+                                <option value="PY">Paraguay</option>
+                                <option value="BO">Bolivia</option>
+                                <option value="EC">Ecuador</option>
+                                <option value="VE">Venezuela</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Company/Organization</label>
+                            <input type="text" class="form-input" placeholder="Enter your company name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Experience Level</label>
+                            <select class="form-select" required>
+                                <option value="">Select experience level</option>
+                                <option value="beginner">Beginner (0-2 years)</option>
+                                <option value="intermediate">Intermediate (2-5 years)</option>
+                                <option value="advanced">Advanced (5+ years)</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Submit Enrollment</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Gallery Section -->
+            <section id="gallery" class="section">
+                <h2 class="section-title">Training Facilities & Events</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b9c1aa83-c843-4b55-9e64-8a4b200d1aa2.png" alt="Modern LEEA training facility with state-of-the-art lifting equipment and safety demonstrations" class="gallery-image">
+                        <div class="gallery-content">
+                            <h3 class="gallery-title">Training Facility</h3>
+                            <p class="gallery-description">State-of-the-art training facility equipped with the latest lifting equipment and safety systems.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4575f9f0-68a6-4144-b708-984cc4611db6.png" alt="Professional instructors conducting hands-on crane operation training with students in safety gear" class="gallery-image">
+                        <div class="gallery-content">
+                            <h3 class="gallery-title">Hands-on Training</h3>
+                            <p class="gallery-description">Practical training sessions with experienced instructors and real-world scenarios.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/da22d6d7-55af-46e0-9480-9353f7aba977.png" alt="LEEA certification ceremony with graduates receiving official certificates from instructors" class="gallery-image">
+                        <div class="gallery-content">
+                            <h3 class="gallery-title">Certification Ceremony</h3>
+                            <p class="gallery-description">Graduates receiving their LEEA certification in our formal graduation ceremony.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/92b99271-3364-4164-84f6-38b26467f259.png" alt="Industrial workshop setting showing various types of lifting equipment including chains, ropes and hooks" class="gallery-image">
+                        <div class="gallery-content">
+                            <h3 class="gallery-title">Equipment Laboratory</h3>
+                            <p class="gallery-description">Comprehensive equipment laboratory for inspection and testing training.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9ec53425-bffb-483c-b1f1-f8133adb4971.png" alt="Safety training session with instructors demonstrating proper use of personal protective equipment" class="gallery-image">
+                        <div class="gallery-content">
+                            <h3 class="gallery-title">Safety Training</h3>
+                            <p class="gallery-description">Essential safety training covering PPE, risk assessment, and emergency procedures.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/40631c09-d552-4298-8d5f-a3bf53f82668.png" alt="International conference room with LEEA banners and delegates from various countries attending" class="gallery-image">
+                        <div class="gallery-content">
+                            <h3 class="gallery-title">International Conference</h3>
+                            <p class="gallery-description">Annual LEEA conference bringing together industry professionals worldwide.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="section">
+                <h2 class="section-title">About LEEA UK</h2>
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/786f98c0-546b-456d-aa19-57b34c301111.png" alt="LEEA UK headquarters building with modern architecture and professional signage displaying certification standards" style="width: 100%; max-width: 800px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.1);">
+                </div>
+                <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                    <p style="font-size: 18px; line-height: 1.8; color: #666; margin-bottom: 30px;">
+                        The Lifting Equipment Engineers Association (LEEA) is the leading representative body for all those involved with lifting equipment throughout its life cycle of manufacture, supply, ownership, use and disposal.
+                    </p>
+                    <p style="font-size: 16px; line-height: 1.8; color: #666; margin-bottom: 30px;">
+                        Established in 1944, LEEA has been at the forefront of lifting equipment safety and standards for over 75 years. Our mission is to promote the safe and effective use of lifting equipment through education, training, and certification programs that meet the highest international standards.
+                    </p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin: 40px 0;">
+                        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.1);">
+                            <i class="fas fa-users" style="font-size: 48px; color: #0066cc; margin-bottom: 20px;"></i>
+                            <h3 style="color: #333; margin-bottom: 15px;">5000+</h3>
+                            <p style="color: #666;">Certified Professionals</p>
+                        </div>
+                        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.1);">
+                            <i class="fas fa-globe" style="font-size: 48px; color: #0066cc; margin-bottom: 20px;"></i>
+                            <h3 style="color: #333; margin-bottom: 15px;">50+</h3>
+                            <p style="color: #666;">Countries Served</p>
+                        </div>
+                        <div style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.1);">
+                            <i class="fas fa-award" style="font-size: 48px; color: #0066cc; margin-bottom: 20px;"></i>
+                            <h3 style="color: #333; margin-bottom: 15px;">75+</h3>
+                            <p style="color: #666;">Years of Excellence</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Information</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 3 Osprey Court, Hawkfield Business Park, Bristol BS14 0BB, UK</p>
+                    <p><i class="fas fa-phone"></i> +44 (0)117 944 2121</p>
+                    <p><i class="fas fa-envelope"></i> info@leeaint.com</p>
+                    <p><i class="fas fa-globe"></i> www.leeaint.com</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Certificate Verification</a></li>
+                        <li><a href="#">Training Courses</a></li>
+                        <li><a href="#">Membership</a></li>
+                        <li><a href="#">Standards & Guidelines</a></li>
+                        <li><a href="#">Events & Conferences</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Certification Services</h3>
+                    <ul>
+                        <li><a href="#">Lifting Equipment Inspection</a></li>
+                        <li><a href="#">Chain Sling Safety</a></li>
+                        <li><a href="#">Wire Rope Examination</a></li>
+                        <li><a href="#">Crane Safety Management</a></li>
+                        <li><a href="#">Advanced Rigging</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div style="display: flex; gap: 15px; margin-top: 20px;">
+                        <a href="#" style="color: #adb5bd; font-size: 24px;"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: #adb5bd; font-size: 24px;"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: #adb5bd; font-size: 24px;"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" style="color: #adb5bd; font-size: 24px;"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2024 LEEA UK - Lifting Equipment Engineers Association. All rights reserved. | Privacy Policy | Terms & Conditions</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Student Database (10 certified students)
+        const studentDatabase = [
+            {
+                id: "LEEA2024001",
+                name: "James Thompson",
+                course: "Lifting Equipment Inspection",
+                issueDate: "15 March 2024",
+                expiryDate: "Never Expires",
+                grade: "Distinction",
+                instructor: "Dr. Sarah Wilson",
+                country: "United Kingdom",
+                company: "British Steel Works Ltd"
+            },
+            {
+                id: "LEEA2024002",
+                name: "Emily Rodriguez",
+                course: "Chain Sling Safety",
+                issueDate: "22 March 2024",
+                expiryDate: "Never Expires",
+                grade: "Pass",
+                instructor: "Prof. Michael Davis",
+                country: "Spain",
+                company: "Madrid Construction Group"
+            },
+            {
+                id: "LEEA2024003",
+                name: "David Chen",
+                course: "Wire Rope Examination",
+                issueDate: "8 April 2024",
+                expiryDate: "Never Expires",
+                grade: "Merit",
+                instructor: "Dr. Lisa Anderson",
+                country: "Singapore",
+                company: "Asian Maritime Solutions"
+            },
+            {
+                id: "LEEA2024004",
+                name: "Sophie Müller",
+                course: "Crane Safety Management",
+                issueDate: "18 April 2024",
+                expiryDate: "Never Expires",
+                grade: "Distinction",
+                instructor: "Prof. Robert Brown",
+                country: "Germany",
+                company: "Deutsche Kran GmbH"
+            },
+            {
+                id: "LEEA2024005",
+                name: "Antonio Silva",
+                course: "Lifting Equipment Inspection",
+                issueDate: "25 April 2024",
+                expiryDate: "Never Expires",
+                grade: "Pass",
+                instructor: "Dr. Sarah Wilson",
+                country: "Brazil",
+                company: "Brasil Industrial SA"
+            },
+            {
+                id: "LEEA2024006",
+                name: "Marie Dubois",
+                course: "Chain Sling Safety",
+                issueDate: "5 May 2024",
+                expiryDate: "Never Expires",
+                grade: "Merit",
+                instructor: "Prof. Michael Davis",
+                country: "France",
+                company: "Groupe Français Levage"
+            },
+            {
+                id: "LEEA2024007",
+                name: "Rajesh Patel",
+                course: "Wire Rope Examination",
+                issueDate: "12 May 2024",
+                expiryDate: "Never Expires",
+                grade: "Distinction",
+                instructor: "Dr. Lisa Anderson",
+                country: "India",
+                company: "Mumbai Heavy Industries"
+            },
+            {
+                id: "LEEA2024008",
+                name: "Emma Johnson",
+                course: "Crane Safety Management",
+                issueDate: "20 May 2024",
+                expiryDate: "Never Expires",
+                grade: "Pass",
+                instructor: "Prof. Robert Brown",
+                country: "Australia",
+                company: "Sydney Port Authority"
+            },
+            {
+                id: "LEEA2024009",
+                name: "Lars Andersson",
+                course: "Lifting Equipment Inspection",
+                issueDate: "28 May 2024",
+                expiryDate: "Never Expires",
+                grade: "Merit",
+                instructor: "Dr. Sarah Wilson",
+                country: "Sweden",
+                company: "Nordic Lifting Solutions"
+            },
+            {
+                id: "LEEA2024010",
+                name: "Maria Rossi",
+                course: "Chain Sling Safety",
+                issueDate: "3 June 2024",
+                expiryDate: "Never Expires",
+                grade: "Distinction",
+                instructor: "Prof. Michael Davis",
+                country: "Italy",
+                company: "Italia Sollevamento SRL"
+            }
+        ];
+
+        // Navigation Functions
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Update navigation
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Certificate Search Function
+        function searchCertificate() {
+            const searchTerm = document.getElementById('certificateSearch').value.trim().toLowerCase();
+            const resultDiv = document.getElementById('certificateResult');
+            const detailsDiv = document.getElementById('certificateDetails');
+
+            if (!searchTerm) {
+                alert('Please enter a Certificate ID or Student Name');
+                return;
+            }
+
+            // Search in database
+            const student = studentDatabase.find(s => 
+                s.id.toLowerCase().includes(searchTerm) || 
+                s.name.toLowerCase().includes(searchTerm)
+            );
+
+            if (student) {
+                // Display certificate details
+                detailsDiv.innerHTML = `
+                    <div class="detail-item">
+                        <div class="detail-label">Certificate ID</div>
+                        <div class="detail-value">${student.id}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Student Name</div>
+                        <div class="detail-value">${student.name}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Course</div>
+                        <div class="detail-value">${student.course}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Issue Date</div>
+                        <div class="detail-value">${student.issueDate}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Expiry Date</div>
+                        <div class="detail-value">${student.expiryDate}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Grade</div>
+                        <div class="detail-value">${student.grade}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Instructor</div>
+                        <div class="detail-value">${student.instructor}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Country</div>
+                        <div class="detail-value">${student.country}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Company</div>
+                        <div class="detail-value">${student.company}</div>
+                    </div>
+                `;
+                resultDiv.style.display = 'block';
+            } else {
+                alert('Certificate not found. Please check the Certificate ID or Student Name.');
+                resultDiv.style.display = 'none';
+            }
+        }
+
+        // Enrollment Functions
+        function showEnrollmentForm(courseName) {
+            document.getElementById('selectedCourse').textContent = `Enrolling for: ${courseName}`;
+            document.getElementById('enrollmentForm').style.display = 'block';
+            showSection('enrollment');
+        }
+
+        function submitEnrollment(event) {
+            event.preventDefault();
+            alert('Thank you for your enrollment! We will contact you within 24 hours with course details and payment information.');
+            document.getElementById('enrollmentForm').style.display = 'none';
+        }
+
+        // Search on Enter key
+        document.getElementById('certificateSearch').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchCertificate();
+            }
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show verification section by default
+            showSection('verification');
+        });
+    </script>
+</body>
+</html>
+
